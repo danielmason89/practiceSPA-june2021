@@ -1,14 +1,28 @@
 import { Header, Nav, Main, Footer } from "./components";
+import * as state from "/store";
+import Navigo from "navigo";
+import { capitalize } from "lodash";
 
-function render() {
+
+const router = new Navigo (window.location.origin);
+
+
+router.on({
+    ":page": params => render(state[capitalize(params.page)]),
+    "/": () => render(state.Home)
+})
+.resolve();
+
+function render(st = state.Home) {
     document.querySelector("#root").innerHTML = `
-    ${Header()}
-    ${Nav()}
-    ${Main()}
+    ${Header(st)}
+    ${Nav(state.Links)}
+    ${Main(st)}
     ${Footer()}
     `;
+    router.updatePageLinks();
 }
-render();
+render(state.Home);
 
 // add menu toggle to bars icon in nav bar
 document.querySelector(".fa-bars").addEventListener("click", () => {
