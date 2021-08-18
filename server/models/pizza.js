@@ -2,7 +2,7 @@ const mongoose = require("mongoose");
 const pizzaSchema = new mongoose.Schema({
   crust: String,
   cheese: String,
-  Sauce: String,
+  sauce: String,
   toppings: [String]
 });
 

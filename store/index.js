@@ -4,3 +4,4 @@ export { default as Gallery } from "./Gallery";
 export { default as Form } from "./Form";
 export { default as Links } from "./Link";
 export { default as Blog } from "./Blog";
+export { default as Pizza } from "./Pizza";
