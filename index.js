@@ -1,5 +1,6 @@
 import { Header, Nav, Main, Footer } from "./components";
-import * as state from "/store";
+import * as state from "./store";
+
 import Navigo from "navigo";
 import { capitalize } from "lodash";
 import "./env";
@@ -82,8 +83,46 @@ function render(st = state.Home) {
     ${Footer()}
     `;
     router.updatePageLinks();
+
+    addEventListeners(st);
 }
+
+function addEventListeners(st) {
+  if (st.view === "Order") {
+    document.querySelector("form").addEventListener("submit", event => {
+      event.preventDefault();
+      const inputList = event.target.elements;
+
+      const toppings = [];
+      for (let input of inputList.toppings) {
+        if (input.checked) {
+          toppings.push(input.value);
+        }
+      }
+
+      const requestData = {
+        crust: inputList.crust.value,
+        cheese: inputList.cheese.value,
+        sauce: inputList.sauce.value,
+        toppings: toppings
+      };
+
+      axios
+        .post(`${process.env.API}/pizzas`, requestData)
+        .then(response => {
+          state.Pizza.pizzas.push(response.data);
+          router.navigate("/Pizza");
+        })
+        .catch(error => {
+          console.log("It puked", error);
+        });
+    });
+  }
+  }
+
 render(state.Home);
+
+
 
 // add menu toggle to bars icon in nav bar
 document.querySelector(".fa-bars").addEventListener("click", () => {

@@ -5,3 +5,4 @@ export { default as Form } from "./Form";
 export { default as Links } from "./Link";
 export { default as Blog } from "./Blog";
 export { default as Pizza } from "./Pizza";
+export { default as Order } from "./Order";
